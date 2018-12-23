@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "ts-node ./index.ts"
+  },
   "dependencies": {
     "@types/node": "^10.12.18",
     "discord.js": "^11.4.2",
