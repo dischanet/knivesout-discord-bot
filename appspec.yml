@@ -1,0 +1,20 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/centos/repos/kniveout-discord-bot
+permissions:
+  - object: /
+    owner: centos
+    group: centos
+    mode: 777
+    pattern: "**"
+hooks:
+  AfterInstall:
+    - location: hooks/install.sh
+      timeout: 300
+      runas: centos
+  ApplicationStart:
+    - location: hooks/deploy.sh
+      timeout: 3300
+      runas: centos
