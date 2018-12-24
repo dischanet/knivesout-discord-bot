@@ -53,6 +53,7 @@ setInterval(async () => {
   for await (const tweet of fetchTweets()) {
     if(tweetDictionary.size == 0){
       sendAllTextChannels(tweet.text)
+      tweetDictionary.set(tweet.id, tweet.text)
       break
     }
 
