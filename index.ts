@@ -39,7 +39,7 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`)
 })
 
-const tweetDictionary : Map<string, string> = new Map()
+const tweetDictionary = new Map<string, string>()
 
 function sendAllTextChannels(text : string){
   for(const ch of Array.from(client.channels.values())) {
@@ -50,14 +50,12 @@ function sendAllTextChannels(text : string){
 }
 
 setInterval(async () => {
-  for await (const tweet of fetchTweets()) {
-    if(tweetDictionary.size == 0){
-      sendAllTextChannels(tweet.text)
-      tweetDictionary.set(tweet.id, tweet.text)
-      break
-    }
+  let wasInit = 0 < tweetDictionary.size
 
-    if(!tweetDictionary.has(tweet.id)){
+  for await (const tweet of fetchTweets()) {
+    if(!wasInit){
+      tweetDictionary.set(tweet.id, tweet.text)
+    }else if(!tweetDictionary.has(tweet.id)){
       sendAllTextChannels(tweet.text)
       tweetDictionary.set(tweet.id, tweet.text)
     }
