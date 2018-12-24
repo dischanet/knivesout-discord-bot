@@ -15,6 +15,6 @@ hooks:
       timeout: 300
       runas: centos
   ApplicationStart:
-    - location: hooks/deploy.sh
+    - location: hooks/start.sh
       timeout: 3300
       runas: centos
