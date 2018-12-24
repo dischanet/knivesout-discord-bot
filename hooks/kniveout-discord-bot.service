@@ -5,8 +5,10 @@ After=network.target
 
 [Service]
 Type=simple
+ExecStartPre=/home/centos/repos/kniveout-discord-bot/hooks/set-environment.sh
 ExecStart=/home/centos/.nvm/versions/node/v11.5.0/bin/node /home/centos/repos/kniveout-discord-bot/dist/index.js
 WorkingDirectory=/home/centos/repos/kniveout-discord-bot
+EnvironmentFile=environment
 Restart=on-failure
 
 [Install]
