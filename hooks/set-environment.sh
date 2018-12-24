@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source /home/centos/.bash_profile
 source /home/centos/.bashrc
 
