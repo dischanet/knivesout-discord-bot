@@ -1,3 +1,3 @@
 #!/bin/sh
 
-sudo /usr/bin/systemctl stop kniveout-discord-bot
+sudo /usr/bin/systemctl stop knivesout-discord-bot
