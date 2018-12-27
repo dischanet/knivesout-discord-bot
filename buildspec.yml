@@ -22,7 +22,7 @@ phases:
       - tar cf /tmp/node_modules.tar node_modules
 
 artifacts:
-  files: [ '**/*' ]
+  files: ['**/*']
 
 cache:
   paths:
