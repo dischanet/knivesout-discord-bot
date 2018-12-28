@@ -1,5 +1,4 @@
 import Discord, { Channel } from 'discord.js'
-import process from 'process'
 import cheerio from 'cheerio'
 
 async function fetchTwitter() {
