@@ -1,4 +1,4 @@
-import Discord, { Channel } from 'discord.js'
+import Discord, { Channel, RichEmbed } from 'discord.js'
 import cheerio from 'cheerio'
 
 async function fetchTwitter() {
@@ -58,12 +58,12 @@ client.on('ready', () => {
 })
 
 
-const tweetDictionary = new Map<string, string>()
+const tweetDictionary = new Map<string, object>()
 
-function sendAllTextChannels(message : any){
+function sendAllTextChannels(message : RichEmbed){
   for(const ch of Array.from(client.channels.values())) {
     if(ch instanceof Discord.TextChannel){
-      ch.send({ embed: message  })
+      ch.send(message)
     }
   }
 }
@@ -71,7 +71,7 @@ function sendAllTextChannels(message : any){
 client.on('message', msg => {
   if (msg.content === '/test') {
       for(const key of Array.from(tweetDictionary.keys())) {
-          sendAllTextChannels(tweetDictionary.get(key))
+          sendAllTextChannels(richEmbedFromTweet(tweetDictionary.get(key)))
           return
       }
   }
@@ -79,25 +79,23 @@ client.on('message', msg => {
 
 
 function richEmbedFromTweet(tweet : any) {
-  const imageProp  = tweet.imageUrl != undefined ? { "image": { "url" : tweet.photoUrl } } : { }
-  const videoProp  = tweet.videoUrl != undefined ? { "video": { "url" : tweet.videoUrl } } : { }
-  return {
-    "username": "荒野行動-『KNIVES OUT』公式 Twitter",
-    "avatar_url": "https://pbs.twimg.com/profile_images/933161515602997248/ulIvWXEC_400x400.jpg",
-    "embeds": [
-      {
-        "title": "@GAME_KNIVES_OUT",
-        "description": tweet.text,
-        "color": 8754107,
-        ...imageProp,
-        ...videoProp,
-        "footer": {
-            "text": "荒野行動-『KNIVES OUT』Twitterより",
-            "icon_url": "https://pbs.twimg.com/profile_images/933161515602997248/ulIvWXEC_400x400.jpg"
-        }
-      }
-    ]
+  let embed = new Discord.RichEmbed()
+  embed
+    .setTitle("@GAME_KNIVES_OUT")
+    .setAuthor("荒野行動-『KNIVES OUT』公式 Twitter", "https://pbs.twimg.com/profile_images/933161515602997248/ulIvWXEC_400x400.jpg")
+    .setDescription(tweet.text)
+    .setColor(8754107)
+    .setFooter("荒野行動-『KNIVES OUT』Twitterより", "https://pbs.twimg.com/profile_images/933161515602997248/ulIvWXEC_400x400.jpg")
+
+  if(tweet.imageUrl != undefined) {
+      embed = embed.setImage(tweet.imageUrl)
   }
+
+  if(tweet.videoUrl != undefined) {
+      embed = embed.setImage(tweet.videoUrl)
+  }
+
+  return embed
 }
 
 setInterval(async () => {
@@ -105,10 +103,10 @@ setInterval(async () => {
 
   for await (const tweet of fetchTweets()) {
     if(!wasInit){
-      tweetDictionary.set(tweet.id, tweet.text)
+      tweetDictionary.set(tweet.id, tweet)
     }else if(!tweetDictionary.has(tweet.id)){
       sendAllTextChannels(richEmbedFromTweet(tweet))
-      tweetDictionary.set(tweet.id, tweet.text)
+      tweetDictionary.set(tweet.id, tweet)
     }
   }
 } , 1000 * 60)
