@@ -57,6 +57,7 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`)
 })
 
+
 const tweetDictionary = new Map<string, string>()
 
 function sendAllTextChannels(message : any){
@@ -66,6 +67,16 @@ function sendAllTextChannels(message : any){
     }
   }
 }
+
+client.on('message', msg => {
+  if (msg.content === '/test') {
+      for(const key of Array.from(tweetDictionary.keys())) {
+          sendAllTextChannels(tweetDictionary.get(key))
+          return
+      }
+  }
+})
+
 
 function richEmbedFromTweet(tweet : any) {
   const imageProp  = tweet.imageUrl != undefined ? { "image": { "url" : tweet.photoUrl } } : { }
