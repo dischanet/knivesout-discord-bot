@@ -42,7 +42,10 @@ async function* fetchTweets() {
 
     for(const tweetElm of Array.from($(".tweet"))){
         const tweetId = tweetElm.attribs["data-tweet-id"]
-        
+        const tweetScreenName = tweetElm.attribs["data-user-id"]
+        if(tweetScreenName != "811765148595535872") { continue }
+
+        const tweetPermalinkPath = tweetElm.attribs["data-permalink-path"]
         const tweetTextElm = $(".tweet-text", tweetElm)[0]
         const tweetText = tweetTextElm.children.map(e => toStrFromTweet($, e)).join("")
         const tweetMedia = getMedia($, tweetElm)
@@ -50,6 +53,7 @@ async function* fetchTweets() {
         yield {
             id : tweetId,
             text : tweetText,
+            permalinkPath : tweetPermalinkPath,
             ...tweetMedia
         }
     }
@@ -89,7 +93,8 @@ function richEmbedFromTweet(tweet : any) {
     .setAuthor("荒野行動-『KNIVES OUT』公式 Twitter", "https://pbs.twimg.com/profile_images/933161515602997248/ulIvWXEC_400x400.jpg")
     .setDescription(tweet.text)
     .setColor(8754107)
-    .setFooter("荒野行動-『KNIVES OUT』Twitterより", "https://pbs.twimg.com/profile_images/933161515602997248/ulIvWXEC_400x400.jpg")
+    .setFooter("荒野行動-『KNIVES OUT』Twitterより")
+    .setURL(`https://twitter.com${ tweet.permalinkPath }`)
 
   if(tweet.photoUrl != undefined) {
       embed = embed.setImage(tweet.photoUrl)
