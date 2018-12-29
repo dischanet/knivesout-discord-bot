@@ -87,8 +87,8 @@ function richEmbedFromTweet(tweet : any) {
     .setColor(8754107)
     .setFooter("荒野行動-『KNIVES OUT』Twitterより", "https://pbs.twimg.com/profile_images/933161515602997248/ulIvWXEC_400x400.jpg")
 
-  if(tweet.imageUrl != undefined) {
-      embed = embed.setImage(tweet.imageUrl)
+  if(tweet.photoUrl != undefined) {
+      embed = embed.setImage(tweet.photoUrl)
   }
 
   if(tweet.videoUrl != undefined) {
