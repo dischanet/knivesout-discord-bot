@@ -14,6 +14,10 @@ function toStrFromTweet($ : CheerioStatic, elm: CheerioElement) {
         }else if(elm.tagName == "a" && elm.attribs["class"].includes("twitter-timeline-link") && !elm.attribs["class"].includes("u-hidden")){
             return `[${ $(".js-display-url", elm).text() }](${ elm.attribs["href"] })`
         }
+
+        if(elm.tagName == "img" && elm.attribs["class"].includes("Emoji")) {
+            return elm.attribs["alt"]
+        }
     }
 }
 
