@@ -2,7 +2,7 @@
 
 cd /home/ec2-user/repos/knivesout-discord-bot
 npm install --production
-npm build
+npm run build
 
 REGION=$(curl -s 169.254.169.254/latest/meta-data/local-hostname | cut -d '.' -f2)
 PARAMETER_NAME=KNIVESOUT_DISCORD_BOT_SECRET
