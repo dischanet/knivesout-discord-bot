@@ -4,12 +4,9 @@ files:
   - source: /
     destination: /home/ec2-user/repos/knivesout-discord-bot
 hooks:
-  ApplicationStop:
-    - location: hooks/stop.sh
-      timeout: 300
   AfterInstall:
     - location: hooks/install.sh
-      timeout: 300
+      timeout: 6000
   ApplicationStart:
     - location: hooks/start.sh
-      timeout: 3000
+      timeout: 6000

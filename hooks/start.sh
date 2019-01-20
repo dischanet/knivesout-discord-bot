@@ -1,3 +1,3 @@
 #!/bin/sh
 
-sudo /usr/bin/systemctl start knivesout-discord-bot
+sudo /usr/bin/systemctl restart knivesout-discord-bot
